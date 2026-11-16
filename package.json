@@ -19,7 +19,9 @@
     "test": "vitest run",
     "check:personal": "node scripts/check-personal-data.mjs",
     "probe": "tsx scripts/probe.ts",
-    "prepare": "git config core.hooksPath .githooks || true"
+    "prepare": "git config core.hooksPath .githooks || true",
+    "import-session": "tsx scripts/import-session.ts",
+    "smoke": "tsx scripts/smoke.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.20.0",

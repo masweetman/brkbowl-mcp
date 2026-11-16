@@ -1,0 +1,44 @@
+services:
+  brkbowl-mcp:
+    image: ghcr.io/masweetman/brkbowl-mcp:${BRKBOWL_VERSION:-latest}
+    # To build from a checkout instead of pulling the image:
+    # build: .
+    restart: unless-stopped
+    ports:
+      # Localhost only: the Cloudflare tunnel below (or your own reverse proxy) is the way in.
+      - "127.0.0.1:${PORT:-3000}:3000"
+    environment:
+      NODE_ENV: production
+      BASE_URL: ${BASE_URL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      SESSION_ENCRYPTION_KEY: ${SESSION_ENCRYPTION_KEY}
+      MCP_BEARER_TOKEN: ${MCP_BEARER_TOKEN:-}
+      BB_PHONE: ${BB_PHONE:-}
+      DEFAULT_STORE: ${DEFAULT_STORE:-west}
+      DEFAULT_PRODUCE_PREFERENCE: ${DEFAULT_PRODUCE_PREFERENCE:-conventional}
+      ALLOWED_REDIRECT_HOSTS: ${ALLOWED_REDIRECT_HOSTS:-}
+      CATALOG_TTL_HOURS: ${CATALOG_TTL_HOURS:-12}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    volumes:
+      - brkbowl_data:/data
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+  # Optional: public HTTPS without opening a port. Enable with: --profile tunnel
+  cloudflared:
+    profiles: [tunnel]
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - brkbowl-mcp
+
+volumes:
+  brkbowl_data:

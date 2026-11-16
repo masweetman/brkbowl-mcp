@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // Manual probe against the real Homesome API. Prints key NAMES, types and counts only,
 // never values, so nothing personal lands in terminal history. Raw responses are written to
 // ./data (git-ignored).
