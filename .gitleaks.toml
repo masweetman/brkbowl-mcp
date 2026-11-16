@@ -1,0 +1,16 @@
+title = "brkbowl-mcp"
+
+[extend]
+useDefault = true
+
+# The Homesome apikey is a public key that the Berkeley Bowl website sends to every
+# visitor; it is not a secret.
+[allowlist]
+description = "Public Homesome site key and placeholders"
+regexes = [
+  '''C431BB1B-2A40-4716-BD55-B583E8CB6B2B''',
+  '''replace_with_[a-z0-9_]+''',
+]
+paths = [
+  '''package-lock\.json''',
+]

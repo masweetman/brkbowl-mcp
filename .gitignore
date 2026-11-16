@@ -1,0 +1,22 @@
+node_modules/
+dist/
+coverage/
+
+# Secrets and local config
+.env
+.env.*
+!.env.example
+
+# Runtime data (session, database)
+data/
+*.db
+*.db-*
+session*.json
+
+# Raw captures and recordings: may contain personal data
+*.har
+test/fixtures/raw/
+*.local.*
+
+.DS_Store
+*.log

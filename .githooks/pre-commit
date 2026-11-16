@@ -1,0 +1,9 @@
+#!/bin/sh
+# Blocks commits containing secrets or personal data. Enabled by `npm install` (core.hooksPath).
+set -e
+node scripts/check-personal-data.mjs
+if command -v gitleaks >/dev/null 2>&1; then
+  gitleaks protect --staged --redact --config .gitleaks.toml --no-banner
+else
+  echo "warning: gitleaks not installed (brew install gitleaks); CI will still scan." >&2
+fi
